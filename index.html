@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxy Gym - Break Your Limits</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&amp;family=Archivo:wght@300;400;600;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .main-wrapper {
+      background: #1a1a1a;
+      font-family: 'Archivo', sans-serif;
+    }
+
+    .diagonal-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diagonal-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 80%;
+      height: 200%;
+      background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+      transform: rotate(-15deg);
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .geometric-accent {
+      position: absolute;
+      background: #ff0080;
+      opacity: 0.15;
+    }
+
+    .accent-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: -100px;
+      transform: rotate(45deg);
+    }
+
+    .accent-2 {
+      width: 200px;
+      height: 200px;
+      bottom: 20%;
+      right: -50px;
+      border-radius: 50%;
+    }
+
+    .zone-card {
+      background: #252525;
+      border: 3px solid transparent;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zone-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .zone-card:hover::before {
+      left: 100%;
+    }
+
+    .zone-card:hover {
+      border-color: #00d9ff;
+      transform: translateY(-10px) rotate(2deg);
+      box-shadow: 0 20px 40px rgba(0, 217, 255, 0.3);
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
+      border-left: 6px solid #ff0080;
+      transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+      border-left-width: 12px;
+      transform: translateX(10px);
+    }
+
+    .btn-unique {
+      background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+      color: #000;
+      font-weight: 900;
+      letter-spacing: 3px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-unique::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: #ff0080;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s, height 0.5s;
+    }
+
+    .btn-unique:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-unique span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-link {
+      color: #888;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: #00d9ff;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #00d9ff;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .hero-title-line {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      line-height: 0.85;
+      letter-spacing: 8px;
+    }
+
+    .skew-section {
+      transform: skewY(-2deg);
+      margin: 60px 0;
+    }
+
+    .skew-content {
+      transform: skewY(2deg);
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      .hero-title-line {
+        font-size: 3.5rem !important;
+        letter-spacing: 4px;
+      }
+      
+      .accent-1 {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .accent-2 {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .zone-card:hover {
+        transform: translateY(-5px) rotate(0deg);
+      }
+      
+      .stat-box:hover {
+        transform: translateX(5px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title-line {
+        font-size: 2.5rem !important;
+        letter-spacing: 2px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="main-wrapper w-full h-full overflow-auto"><!-- Header -->
+   <header class="px-4 md:px-6 py-4 md:py-6 relative z-20" style="background: #000;">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center">
+     <div>
+      <h1 id="gym-name" class="text-3xl md:text-5xl font-black leading-none" style="font-family: 'Teko', sans-serif; color: #00d9ff; letter-spacing: 4px;">GALAXY</h1>
+      <p id="gym-subtitle" class="text-xl md:text-2xl font-black" style="font-family: 'Teko', sans-serif; color: #ff0080; letter-spacing: 4px; margin-top: -8px;">GYM</p>
+     </div><!-- Mobile Menu Button -->
+     <div class="flex md:hidden"><button id="mobile-menu-toggle" class="text-3xl" style="color: #00d9ff;">☰</button>
+     </div><!-- Desktop Menu -->
+     <div id="desktop-menu" class="hidden md:flex space-x-8 items-center"><a href="#train" id="nav-link-1" class="nav-link text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px;">TRAIN</a> <a href="#classes" id="nav-link-2" class="nav-link text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px;">CLASSES</a> <a href="#join" id="nav-link-3" class="nav-link text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px;">CALL US</a> <button id="lang-toggle" class="btn-unique px-8 py-3 text-xs font-black flex items-center gap-2" style="font-family: 'Archivo', sans-serif; clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);"> <span style="opacity: 0.7;">Language:</span> <span id="lang-text">Myanmar</span> </button>
+     </div>
+    </nav><!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 py-4" style="background: #000;"><a href="#train" id="nav-link-1-mobile" class="block py-3 text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px; color: #888;">TRAIN</a> <a href="#classes" id="nav-link-2-mobile" class="block py-3 text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px; color: #888;">CLASSES</a> <a href="#join" id="nav-link-3-mobile" class="block py-3 text-sm font-bold" style="font-family: 'Archivo', sans-serif; letter-spacing: 2px; color: #888;">CALL US</a> <button id="lang-toggle-mobile" class="btn-unique px-6 py-3 text-xs font-black flex items-center gap-2 mt-4 w-full justify-center" style="font-family: 'Archivo', sans-serif;"> <span style="opacity: 0.7;">Language:</span> <span id="lang-text-mobile">Myanmar</span> </button>
+    </div>
+   </header><!-- Hero Section -->
+   <section class="diagonal-bg px-4 md:px-6 py-16 md:py-24 relative">
+    <div class="geometric-accent accent-1"></div>
+    <div class="max-w-7xl mx-auto relative z-10">
+     <div class="max-w-4xl">
+      <h2 class="hero-title-line text-6xl md:text-8xl lg:text-9xl" id="hero-title-1" style="color: #fff;">BREAK</h2>
+      <h2 class="hero-title-line text-6xl md:text-8xl lg:text-9xl" id="hero-title-2" style="color: #00d9ff;">YOUR</h2>
+      <h2 class="hero-title-line text-6xl md:text-8xl lg:text-9xl mb-8" id="hero-title-3" style="color: #ff0080;">LIMITS</h2>
+     </div>
+    </div>
+   </section><!-- Stats Section -->
+   <section class="px-4 md:px-6 py-12 md:py-16 relative" style="background: #0a0a0a;">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <div class="stat-box p-6 md:p-8">
+       <div id="stat-1-number" class="text-5xl md:text-6xl font-black mb-2" style="font-family: 'Teko', sans-serif; color: #00d9ff;">
+        1.7K
+       </div>
+       <div id="stat-1-label" class="text-xs font-bold tracking-widest" style="color: #666;">
+        MEMBERS
+       </div>
+      </div>
+      <div class="stat-box p-6 md:p-8">
+       <div id="stat-2-number" class="text-5xl md:text-6xl font-black mb-2" style="font-family: 'Teko', sans-serif; color: #00d9ff;">
+        3
+       </div>
+       <div id="stat-2-label" class="text-xs font-bold tracking-widest" style="color: #666;">
+        TRAINERS
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Training Zones -->
+   <section id="train" class="skew-section px-4 md:px-6 py-16 md:py-20 relative" style="background: #1a1a1a;">
+    <div class="geometric-accent accent-2"></div>
+    <div class="skew-content max-w-7xl mx-auto">
+     <h3 id="zones-title" class="text-4xl md:text-6xl font-black mb-8 md:mb-12 text-center" style="font-family: 'Teko', sans-serif; color: #fff; letter-spacing: 6px;">TRAINING ZONES</h3>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"><!-- Zone 1 -->
+      <div class="zone-card p-6 md:p-10" style="clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);">
+       <div class="text-4xl md:text-6xl mb-4">
+        ⚡
+       </div>
+       <h4 id="zone-1-title" class="text-3xl md:text-4xl font-black mb-3" style="font-family: 'Teko', sans-serif; color: #00d9ff; letter-spacing: 3px;">STRENGTH</h4>
+       <p id="zone-1-desc" class="text-sm font-light mb-6" style="color: #aaa;">Heavy iron, serious gains. Olympic platforms and competition-grade equipment.</p><!-- Strength SVG -->
+       <svg viewbox="0 0 200 120" style="width: 100%; max-width: 200px; margin: 0 auto; display: block;"><defs>
+         <lineargradient id="strengthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+         </lineargradient>
+        </defs> <rect x="20" y="55" width="160" height="10" fill="url(#strengthGrad)" rx="2" /> <rect x="10" y="40" width="20" height="40" fill="#00d9ff" rx="3" /> <rect x="12" y="45" width="16" height="30" fill="#252525" rx="2" /> <rect x="170" y="40" width="20" height="40" fill="#00d9ff" rx="3" /> <rect x="172" y="45" width="16" height="30" fill="#252525" rx="2" /> <rect x="85" y="50" width="30" height="20" fill="#ff0080" opacity="0.3" rx="2" /> <rect x="30" y="45" width="12" height="30" fill="#00d9ff" opacity="0.7" rx="2" /> <rect x="158" y="45" width="12" height="30" fill="#00d9ff" opacity="0.7" rx="2" />
+       </svg><!-- Strength Zone Image Placeholder -->
+       <img
+  src="./Strength.jpeg"
+  alt="Strength Training Zone"
+  style="
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 16px;
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.35);
+  "
+/>
+      </div><!-- Zone 2 -->
+      <div class="zone-card p-6 md:p-10" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 85%);">
+       <div class="text-4xl md:text-6xl mb-4">
+        🔥
+       </div>
+       <h4 id="zone-2-title" class="text-3xl md:text-4xl font-black mb-3" style="font-family: 'Teko', sans-serif; color: #ff0080; letter-spacing: 3px;">CARDIO</h4>
+       <p id="zone-2-desc" class="text-sm font-light mb-6" style="color: #aaa;">Push your endurance limits. High-tech machines with immersive displays.</p><!-- Cardio SVG -->
+       <svg viewbox="0 0 200 120" style="width: 100%; max-width: 200px; margin: 0 auto; display: block;"><defs>
+         <lineargradient id="cardioGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#ff0080;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#cc0066;stop-opacity:1" />
+         </lineargradient>
+        </defs> <polyline points="10,60 40,60 50,30 60,90 70,40 80,60 200,60" fill="none" stroke="url(#cardioGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /> <circle cx="50" cy="30" r="5" fill="#ff0080" opacity="0.8">
+         <animate attributename="opacity" values="0.8;0.3;0.8" dur="1.5s" repeatcount="indefinite" />
+        </circle> <circle cx="60" cy="90" r="5" fill="#ff0080" opacity="0.6">
+         <animate attributename="opacity" values="0.6;0.2;0.6" dur="1.5s" begin="0.3s" repeatcount="indefinite" />
+        </circle> <circle cx="70" cy="40" r="5" fill="#ff0080" opacity="0.7">
+         <animate attributename="opacity" values="0.7;0.25;0.7" dur="1.5s" begin="0.6s" repeatcount="indefinite" />
+        </circle> <path d="M 160 45 C 160 38 154 33 148 33 C 144 33 140 35 138 38 C 136 35 132 33 128 33 C 122 33 116 38 116 45 C 116 54 138 65 138 65 C 138 65 160 54 160 45 Z" fill="#ff0080" opacity="0.9">
+         <animate attributename="opacity" values="0.9;0.5;0.9" dur="1.2s" repeatcount="indefinite" />
+        </path>
+       </svg><!-- Cardio Zone Image Placeholder -->
+       <img
+  src="./Cardio.jpeg"
+  alt="Cardio Training Group"
+  style="
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 16px;
+    box-shadow: 0 10px 25px rgba(255, 0, 128, 0.35);
+  "
+/>
+      </div>
+     </div>
+    </div>
+   </section><!-- Classes Section -->
+   <section id="classes" class="px-4 md:px-6 py-16 md:py-20 relative" style="background: #0a0a0a;">
+    <div class="max-w-7xl mx-auto">
+     <h3 id="classes-title" class="text-4xl md:text-6xl font-black mb-8 md:mb-12 text-center" style="font-family: 'Teko', sans-serif; color: #fff; letter-spacing: 6px;">CLASS SCHEDULE</h3>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <div class="stat-box p-6 md:p-8">
+       <div class="text-3xl md:text-4xl mb-3">
+        🔥
+       </div>
+       <h4 id="class-1-title" class="text-xl md:text-2xl font-black mb-2" style="font-family: 'Teko', sans-serif; color: #00d9ff; letter-spacing: 2px;">CARDIO</h4>
+       <p id="class-1-days" class="text-sm mb-2" style="color: #888;">Mon, Wed, Fri</p>
+       <p id="class-1-time" class="text-xs mb-4" style="color: #666;">5:30 PM - 6:30 PM</p><!-- Cardio Class Image Placeholder -->
+       <img
+  src="./Cardio2.jpeg"
+  alt="Cardio Group Class Training"
+  loading="lazy"
+  style="
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 12px;
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.35);
+  "
+/>
+      </div>
+      <div class="stat-box p-6 md:p-8">
+       <div class="text-3xl md:text-4xl mb-3">
+        🏋️
+       </div>
+       <h4 id="class-2-title" class="text-xl md:text-2xl font-black mb-2" style="font-family: 'Teko', sans-serif; color: #ff0080; letter-spacing: 2px;">CROSSFIT</h4>
+       <p id="class-2-days" class="text-sm mb-2" style="color: #888;">Tue, Thu, Sat</p>
+       <p id="class-2-time" class="text-xs mb-4" style="color: #666;">5:00 PM - 6:00 PM</p><!-- CrossFit Class Image Placeholder -->
+       <img
+  src="./Crossfit1.jpeg"
+  alt="Crossfit Class Training"
+  loading="lazy"
+  style="
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 12px;
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.35);
+  "
+/>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="join" class="px-4 md:px-6 py-20 md:py-32 text-center relative" style="background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);">
+    <div class="max-w-4xl mx-auto relative z-10">
+     <h3 id="contact-title" class="text-4xl md:text-6xl font-black mb-8 md:mb-12" style="font-family: 'Teko', sans-serif; color: #00d9ff; letter-spacing: 8px;">CONTACT US</h3>
+     <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12 mb-8">
+      <div class="flex items-center gap-4">
+       <div class="text-4xl md:text-5xl">
+        📞
+       </div>
+       <div class="text-left">
+        <p class="text-xs md:text-sm font-bold mb-1" style="color: #888; letter-spacing: 2px;">PHONE</p>
+        <p id="phone-number" class="text-xl md:text-2xl font-black" style="font-family: 'Teko', sans-serif; color: #fff; letter-spacing: 2px;">09-2036567</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-4">
+       <div class="text-4xl md:text-5xl">
+        📍
+       </div>
+       <div class="text-left">
+        <p class="text-xs md:text-sm font-bold mb-1" style="color: #888; letter-spacing: 2px;">ADDRESS</p>
+        <p id="address" class="text-base md:text-xl font-light" style="color: #fff; max-width: 300px;">65 Street, Mandalay, Myanmar</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="px-4 md:px-6 py-6 md:py-8 text-center" style="background: #000;">
+    <p id="footer-text" class="text-xs font-bold tracking-widest" style="color: #444;">GALAXY GYM 2024</p>
+   </footer>
+  </div>
+  <script>
+    // Language translations
+    const translations = {
+      en: {
+        gym_name: 'GALAXY',
+        gym_subtitle: 'GYM',
+        nav_link_1: 'TRAIN',
+        nav_link_2: 'CLASSES',
+        nav_link_3: 'CALL US',
+        hero_title_1: 'BREAK',
+        hero_title_2: 'YOUR',
+        hero_title_3: 'LIMITS',
+        stat_1_number: '1.7K',
+        stat_1_label: 'MEMBERS',
+        stat_2_number: '3',
+        stat_2_label: 'TRAINERS',
+        zone_1_title: 'STRENGTH',
+        zone_1_desc: 'Heavy iron, serious gains. Olympic platforms and competition-grade equipment.',
+        zone_2_title: 'CARDIO',
+        zone_2_desc: 'Push your endurance limits. High-tech machines with immersive displays.',
+        phone_number: '09-2036567',
+        address: '65 Street, Mandalay, Myanmar',
+        footer_text: 'GALAXY GYM 2024',
+        classes_title: 'CLASS SCHEDULE',
+        zones_title: 'TRAINING ZONES',
+        contact_title: 'CONTACT US',
+        class_1_title: 'CARDIO',
+        class_1_days: 'Mon, Wed, Fri',
+        class_1_time: '5:30 PM - 6:30 PM',
+        class_2_title: 'CROSSFIT',
+        class_2_days: 'Tue, Thu, Sat',
+        class_2_time: '5:00 PM - 6:00 PM'
+      },
+      my: {
+        gym_name: 'GALAXY',
+        gym_subtitle: 'GYM',
+        nav_link_1: 'လေ့ကျင့်ခန်း',
+        nav_link_2: 'အတန်းများ',
+        nav_link_3: 'ဆက်သွယ်ရန်',
+        hero_title_1: 'ဖြိုခွဲပါ',
+        hero_title_2: 'သင့်ရဲ့',
+        hero_title_3: 'ကန့်သတ်ချက်များ',
+        stat_1_number: '၁.၇K',
+        stat_1_label: 'အဖွဲ့ဝင်များ',
+        stat_2_number: '၃',
+        stat_2_label: 'နည်းပြများ',
+        zone_1_title: 'ခွန်အား',
+        zone_1_desc: 'လေးလံသော သံ၊ အလေးအနက် တိုးတက်မှု။ အိုလံပစ် ပလက်ဖောင်းများနှင့် ပြိုင်ပွဲအဆင့် ကိရိယာများ။',
+        zone_2_title: 'ကာဒီယို',
+        zone_2_desc: 'သင့်ခံနိုင်ရည် ကန့်သတ်ချက်များကို တွန်းအားပေးပါ။ ခေတ်မီနည်းပညာ စက်များနှင့် မြင်ကွင်းပြ စနစ်များ။',
+        phone_number: '09-2036567',
+        address: '65 Street, Mandalay, Myanmar',
+        footer_text: 'GALAXY GYM 2024',
+        classes_title: 'အတန်းဇယား',
+        zones_title: 'လေ့ကျင့်ရေးဇုန်များ',
+        contact_title: 'ဆက်သွယ်ရန်',
+        class_1_title: 'ကာဒီယို',
+        class_1_days: 'တနင်္လာ၊ ဗုဒ္ဓဟူး၊ သောကြာ',
+        class_1_time: 'ညနေ ၅:၃၀ - ၆:၃၀',
+        class_2_title: 'ခရေ့စ်ဖစ်',
+        class_2_days: 'အင်္ဂါ၊ ကြာသပတေး၊ စနေ',
+        class_2_time: 'ညနေ ၅:၀၀ - ၆:၀၀'
+      }
+    };
+
+    let currentLang = 'my';
+
+    const defaultConfig = {
+      background_color: '#1a1a1a',
+      surface_color: '#252525',
+      text_color: '#aaaaaa',
+      primary_action_color: '#00d9ff',
+      secondary_action_color: '#ff0080',
+      font_family: 'Teko',
+      font_size: 16,
+      gym_name: 'GALAXY',
+      gym_subtitle: 'GYM',
+      nav_link_1: 'လေ့ကျင့်ခန်း',
+      nav_link_2: 'အတန်းများ',
+      nav_link_3: 'ဆက်သွယ်ရန်',
+      hero_title_1: 'ဖြိုခွဲပါ',
+      hero_title_2: 'သင့်ရဲ့',
+      hero_title_3: 'ကန့်သတ်ချက်များ',
+      stat_1_number: '၁.၇K',
+      stat_1_label: 'အဖွဲ့ဝင်များ',
+      stat_2_number: '၃',
+      stat_2_label: 'နည်းပြများ',
+      zone_1_title: 'ခွန်အား',
+      zone_1_desc: 'လေးလံသော သံ၊ အလေးအနက် တိုးတက်မှု။ အိုလံပစ် ပလက်ဖောင်းများနှင့် ပြိုင်ပွဲအဆင့် ကိရိယာများ။',
+      zone_2_title: 'ကာဒီယို',
+      zone_2_desc: 'သင့်ခံနိုင်ရည် ကန့်သတ်ချက်များကို တွန်းအားပေးပါ။ ခေတ်မီနည်းပညာ စက်များနှင့် မြင်ကွင်းပြ စနစ်များ။',
+      phone_number: '09-2036567',
+      address: '65 Street, Mandalay, Myanmar',
+      footer_text: 'GALAXY GYM 2024'
+    };
+
+    async function onConfigChange(config) {
+      const baseFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = `'${baseFont}', sans-serif`;
+      const bodyFontStack = "'Archivo', sans-serif";
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+
+      // Update backgrounds
+      document.getElementById('app-wrapper').style.background = backgroundColor;
+      
+      const zoneCards = document.querySelectorAll('.zone-card');
+      zoneCards.forEach(card => {
+        card.style.background = surfaceColor;
+      });
+
+      const statBoxes = document.querySelectorAll('.stat-box');
+      statBoxes.forEach(box => {
+        box.style.background = `linear-gradient(135deg, ${surfaceColor} 0%, ${backgroundColor} 100%)`;
+        box.style.borderLeftColor = secondaryActionColor;
+      });
+
+      // Update text content
+      document.getElementById('gym-name').textContent = config.gym_name || defaultConfig.gym_name;
+      document.getElementById('gym-subtitle').textContent = config.gym_subtitle || defaultConfig.gym_subtitle;
+      document.getElementById('nav-link-1').textContent = config.nav_link_1 || defaultConfig.nav_link_1;
+      document.getElementById('nav-link-2').textContent = config.nav_link_2 || defaultConfig.nav_link_2;
+      document.getElementById('nav-link-3').textContent = config.nav_link_3 || defaultConfig.nav_link_3;
+      document.getElementById('nav-link-1-mobile').textContent = config.nav_link_1 || defaultConfig.nav_link_1;
+      document.getElementById('nav-link-2-mobile').textContent = config.nav_link_2 || defaultConfig.nav_link_2;
+      document.getElementById('nav-link-3-mobile').textContent = config.nav_link_3 || defaultConfig.nav_link_3;
+      document.getElementById('hero-title-1').textContent = config.hero_title_1 || defaultConfig.hero_title_1;
+      document.getElementById('hero-title-2').textContent = config.hero_title_2 || defaultConfig.hero_title_2;
+      document.getElementById('hero-title-3').textContent = config.hero_title_3 || defaultConfig.hero_title_3;
+      document.getElementById('stat-1-number').textContent = config.stat_1_number || defaultConfig.stat_1_number;
+      document.getElementById('stat-1-label').textContent = config.stat_1_label || defaultConfig.stat_1_label;
+      document.getElementById('stat-2-number').textContent = config.stat_2_number || defaultConfig.stat_2_number;
+      document.getElementById('stat-2-label').textContent = config.stat_2_label || defaultConfig.stat_2_label;
+
+      document.getElementById('zone-1-title').textContent = config.zone_1_title || defaultConfig.zone_1_title;
+      document.getElementById('zone-1-desc').textContent = config.zone_1_desc || defaultConfig.zone_1_desc;
+      document.getElementById('zone-2-title').textContent = config.zone_2_title || defaultConfig.zone_2_title;
+      document.getElementById('zone-2-desc').textContent = config.zone_2_desc || defaultConfig.zone_2_desc;
+
+      document.getElementById('phone-number').textContent = config.phone_number || defaultConfig.phone_number;
+      document.getElementById('address').textContent = config.address || defaultConfig.address;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+
+      // Update colors
+      document.getElementById('gym-name').style.color = primaryActionColor;
+      document.getElementById('gym-subtitle').style.color = secondaryActionColor;
+      document.getElementById('hero-title-2').style.color = primaryActionColor;
+      document.getElementById('hero-title-3').style.color = secondaryActionColor;
+      
+      const statNumbers = document.querySelectorAll('[id^="stat-"][id$="-number"]');
+      statNumbers.forEach(el => el.style.color = primaryActionColor);
+
+      document.getElementById('zone-1-title').style.color = primaryActionColor;
+      document.getElementById('zone-2-title').style.color = secondaryActionColor;
+
+      const zoneDescs = document.querySelectorAll('[id^="zone-"][id$="-desc"]');
+      zoneDescs.forEach(el => el.style.color = textColor);
+
+      document.getElementById('contact-title').style.color = primaryActionColor;
+
+      // Update fonts
+      document.getElementById('gym-name').style.fontFamily = baseFontStack;
+      document.getElementById('gym-subtitle').style.fontFamily = baseFontStack;
+      document.getElementById('hero-title-1').style.fontFamily = baseFontStack;
+      document.getElementById('hero-title-2').style.fontFamily = baseFontStack;
+      document.getElementById('hero-title-3').style.fontFamily = baseFontStack;
+      document.getElementById('phone-number').style.fontFamily = baseFontStack;
+      document.getElementById('contact-title').style.fontFamily = baseFontStack;
+      
+      statNumbers.forEach(el => el.style.fontFamily = baseFontStack);
+      
+      const zoneTitles = document.querySelectorAll('[id^="zone-"][id$="-title"]');
+      zoneTitles.forEach(el => el.style.fontFamily = baseFontStack);
+
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(el => el.style.fontFamily = bodyFontStack);
+      
+      document.getElementById('address').style.fontFamily = bodyFontStack;
+      
+      const statLabels = document.querySelectorAll('[id^="stat-"][id$="-label"]');
+      statLabels.forEach(el => el.style.fontFamily = bodyFontStack);
+      
+      zoneDescs.forEach(el => el.style.fontFamily = bodyFontStack);
+      document.getElementById('footer-text').style.fontFamily = bodyFontStack;
+
+      // Update font sizes
+      document.getElementById('gym-name').style.fontSize = `${baseSize * 3.125}px`;
+      document.getElementById('gym-subtitle').style.fontSize = `${baseSize * 1.5}px`;
+      
+      navLinks.forEach(el => el.style.fontSize = `${baseSize * 0.875}px`);
+      
+      document.getElementById('hero-title-1').style.fontSize = `${baseSize * 5}px`;
+      document.getElementById('hero-title-2').style.fontSize = `${baseSize * 5}px`;
+      document.getElementById('hero-title-3').style.fontSize = `${baseSize * 5}px`;
+      
+      statNumbers.forEach(el => el.style.fontSize = `${baseSize * 3.75}px`);
+      statLabels.forEach(el => el.style.fontSize = `${baseSize * 0.75}px`);
+      
+      zoneTitles.forEach(el => el.style.fontSize = `${baseSize * 2.5}px`);
+      zoneDescs.forEach(el => el.style.fontSize = `${baseSize * 0.875}px`);
+      
+      document.getElementById('contact-title').style.fontSize = `${baseSize * 3.75}px`;
+      document.getElementById('phone-number').style.fontSize = `${baseSize * 1.5}px`;
+      document.getElementById('address').style.fontSize = `${baseSize * 1.25}px`;
+      document.getElementById('footer-text').style.fontSize = `${baseSize * 0.75}px`;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['gym_name', config.gym_name || defaultConfig.gym_name],
+        ['gym_subtitle', config.gym_subtitle || defaultConfig.gym_subtitle],
+        ['nav_link_1', config.nav_link_1 || defaultConfig.nav_link_1],
+        ['nav_link_2', config.nav_link_2 || defaultConfig.nav_link_2],
+        ['nav_link_3', config.nav_link_3 || defaultConfig.nav_link_3],
+        ['hero_title_1', config.hero_title_1 || defaultConfig.hero_title_1],
+        ['hero_title_2', config.hero_title_2 || defaultConfig.hero_title_2],
+        ['hero_title_3', config.hero_title_3 || defaultConfig.hero_title_3],
+        ['stat_1_number', config.stat_1_number || defaultConfig.stat_1_number],
+        ['stat_1_label', config.stat_1_label || defaultConfig.stat_1_label],
+        ['stat_2_number', config.stat_2_number || defaultConfig.stat_2_number],
+        ['stat_2_label', config.stat_2_label || defaultConfig.stat_2_label],
+        ['zone_1_title', config.zone_1_title || defaultConfig.zone_1_title],
+        ['zone_1_desc', config.zone_1_desc || defaultConfig.zone_1_desc],
+        ['zone_2_title', config.zone_2_title || defaultConfig.zone_2_title],
+        ['zone_2_desc', config.zone_2_desc || defaultConfig.zone_2_desc],
+        ['phone_number', config.phone_number || defaultConfig.phone_number],
+        ['address', config.address || defaultConfig.address],
+        ['footer_text', config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+      }
+    });
+
+    // Language toggle functionality
+    function switchLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      
+      document.getElementById('nav-link-1').textContent = t.nav_link_1;
+      document.getElementById('nav-link-2').textContent = t.nav_link_2;
+      document.getElementById('nav-link-3').textContent = t.nav_link_3;
+      document.getElementById('nav-link-1-mobile').textContent = t.nav_link_1;
+      document.getElementById('nav-link-2-mobile').textContent = t.nav_link_2;
+      document.getElementById('nav-link-3-mobile').textContent = t.nav_link_3;
+      document.getElementById('hero-title-1').textContent = t.hero_title_1;
+      document.getElementById('hero-title-2').textContent = t.hero_title_2;
+      document.getElementById('hero-title-3').textContent = t.hero_title_3;
+      document.getElementById('stat-1-number').textContent = t.stat_1_number;
+      document.getElementById('stat-1-label').textContent = t.stat_1_label;
+      document.getElementById('stat-2-number').textContent = t.stat_2_number;
+      document.getElementById('stat-2-label').textContent = t.stat_2_label;
+
+      document.getElementById('zones-title').textContent = t.zones_title;
+      document.getElementById('zone-1-title').textContent = t.zone_1_title;
+      document.getElementById('zone-1-desc').textContent = t.zone_1_desc;
+      document.getElementById('zone-2-title').textContent = t.zone_2_title;
+      document.getElementById('zone-2-desc').textContent = t.zone_2_desc;
+
+      document.getElementById('classes-title').textContent = t.classes_title;
+      document.getElementById('class-1-title').textContent = t.class_1_title;
+      document.getElementById('class-1-days').textContent = t.class_1_days;
+      document.getElementById('class-1-time').textContent = t.class_1_time;
+      document.getElementById('class-2-title').textContent = t.class_2_title;
+      document.getElementById('class-2-days').textContent = t.class_2_days;
+      document.getElementById('class-2-time').textContent = t.class_2_time;
+      document.getElementById('contact-title').textContent = t.contact_title;
+      document.getElementById('phone-number').textContent = t.phone_number;
+      document.getElementById('address').textContent = t.address;
+      document.getElementById('footer-text').textContent = t.footer_text;
+      
+      const langButtonText = lang === 'en' ? 'Myanmar' : 'English';
+      document.getElementById('lang-text').textContent = langButtonText;
+      document.getElementById('lang-text-mobile').textContent = langButtonText;
+    }
+
+    // Language toggle button events
+    document.getElementById('lang-toggle').addEventListener('click', function() {
+      switchLanguage(currentLang === 'en' ? 'my' : 'en');
+    });
+
+    document.getElementById('lang-toggle-mobile').addEventListener('click', function() {
+      switchLanguage(currentLang === 'en' ? 'my' : 'en');
+      document.getElementById('mobile-menu').classList.add('hidden');
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+        // Close mobile menu after clicking a link
+        document.getElementById('mobile-menu').classList.add('hidden');
+      });
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ </body>
+</html>
